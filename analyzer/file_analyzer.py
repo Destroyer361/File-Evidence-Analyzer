@@ -2,7 +2,7 @@ from pathlib import Path
 import mimetypes
 from datetime import datetime
 import hashlib
-import fitz
+import pymupdf
 import os
 import getpass
 import subprocess
@@ -76,7 +76,7 @@ def calculate_hashes(file):
 
 
 def analyze_pdf_metadata(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
     metadata = document.metadata
 
     print("\nPDF METADATA")
@@ -94,7 +94,7 @@ def analyze_pdf_metadata(file):
 
 
 def analyze_pdf_content(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     total_text = ""
 
@@ -176,7 +176,7 @@ def analyze_suspicious_content(text):
 
 
 def analyze_pdf_embedded_content(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     image_count = 0
 
@@ -205,7 +205,7 @@ def analyze_pdf_embedded_content(file):
 
 
 def analyze_pdf_images(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     images = []
 
@@ -267,7 +267,7 @@ def analyze_pdf_images(file):
 
 
 def analyze_pdf_image_hashes(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     print("\nPDF IMAGE HASHES")
     print("----------------")
@@ -313,7 +313,7 @@ def analyze_pdf_image_hashes(file):
 
 
 def analyze_pdf_objects(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     print("\nPDF OBJECTS")
     print("-----------")
@@ -415,7 +415,7 @@ def analyze_pdf_objects(file):
 
 
 def analyze_pdf_structure(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     indicators = {
         "JavaScript": ["/JavaScript", "/JS"],
@@ -493,13 +493,13 @@ def analyze_pdf_structure(file):
 
 
 def analyze_pdf_javascript(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     javascript_found = False
 
     for page in document:
         for link in page.get_links():
-            if link.get("kind") == fitz.LINK_LAUNCH:
+            if link.get("kind") == pymupdf.LINK_LAUNCH:
                 javascript_found = True
 
     text = ""
@@ -522,7 +522,7 @@ def analyze_pdf_javascript(file):
 
 
 def analyze_pdf_links(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     links = []
 
@@ -553,7 +553,7 @@ def analyze_pdf_links(file):
 
 
 def analyze_pdf_fonts(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     fonts = set()
 
@@ -581,7 +581,7 @@ def analyze_pdf_fonts(file):
 
 
 def analyze_pdf_annotations(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     annotations = []
 
@@ -616,7 +616,7 @@ def analyze_pdf_annotations(file):
 
 
 def analyze_pdf_security(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     print("\nPDF SECURITY")
     print("------------")
@@ -633,7 +633,7 @@ def analyze_pdf_security(file):
 
 
 def analyze_pdf_permissions(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     permissions = document.permissions
 
@@ -642,34 +642,34 @@ def analyze_pdf_permissions(file):
 
     print(
         f"Printing: "
-        f"{'Allowed' if permissions & fitz.PDF_PERM_PRINT else 'Not allowed'}"
+        f"{'Allowed' if permissions & pymupdf.PDF_PERM_PRINT else 'Not allowed'}"
     )
 
     print(
         f"Copying: "
-        f"{'Allowed' if permissions & fitz.PDF_PERM_COPY else 'Not allowed'}"
+        f"{'Allowed' if permissions & pymupdf.PDF_PERM_COPY else 'Not allowed'}"
     )
 
     print(
         f"Modifying: "
-        f"{'Allowed' if permissions & fitz.PDF_PERM_MODIFY else 'Not allowed'}"
+        f"{'Allowed' if permissions & pymupdf.PDF_PERM_MODIFY else 'Not allowed'}"
     )
 
     print(
         f"Form filling: "
-        f"{'Allowed' if permissions & fitz.PDF_PERM_FORM else 'Not allowed'}"
+        f"{'Allowed' if permissions & pymupdf.PDF_PERM_FORM else 'Not allowed'}"
     )
 
     print(
         f"Annotating: "
-        f"{'Allowed' if permissions & fitz.PDF_PERM_ANNOTATE else 'Not allowed'}"
+        f"{'Allowed' if permissions & pymupdf.PDF_PERM_ANNOTATE else 'Not allowed'}"
     )
 
     document.close()
 
 
 def analyze_pdf_page_dimensions(file):
-    document = fitz.open(file)
+    document = pymupdf.open(file)
 
     print("\nPDF PAGE DIMENSIONS")
     print("-------------------")
