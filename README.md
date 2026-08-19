@@ -1,94 +1,88 @@
-# File Evidence Analyzer
-
-A Python-based digital forensics tool for analyzing files, verifying evidence integrity, detecting suspicious indicators, performing PDF forensic analysis, and generating automated forensic reports.
-
 ## Features
 
-### 1. File Identification
+### 🔍 File Identification & Metadata
 
 * File name and extension detection
-* File size calculation
+* File size analysis
 * MIME type detection
-* File signature analysis
-* Detected file type identification
-* Extension/type consistency check
+* File signature/type detection
+* Extension and detected-type comparison
+* File creation, modification, and access timestamps
 
-### 2. File Integrity & Hashing
+### 🔐 Cryptographic Hashing & Integrity
 
-* MD5
-* SHA-1
-* SHA-256
-* Expected SHA-256 verification
-* Integrity status: MATCH / MISMATCH
+* MD5 hash generation
+* SHA-1 hash generation
+* SHA-256 hash generation
+* Evidence integrity verification
+* MATCH / MISMATCH status
+* Cryptographic hashes included in forensic reports
 
-### 3. File System Analysis
+### 👤 File System & Permission Analysis
 
-* Created timestamp
-* Modified timestamp
-* Accessed timestamp
-* Read/write/execute permission analysis
-* Current user detection
+* Current user identification
 * File owner detection
+* Read permission analysis
+* Write permission analysis
+* Execute permission analysis
+* Windows-specific permission handling
 
-### 4. Suspicious Content Detection
+### 🚨 Suspicious Content Detection
 
-The analyzer checks file content for:
+The analyzer scans file content for potentially suspicious indicators:
 
 * URLs
 * Email addresses
 * IP addresses
 * Suspicious keywords
+* Indicator count and reporting
 
-### 5. PDF Forensic Analysis
+### 📄 PDF Forensic Analysis
 
-For PDF files, the analyzer can inspect:
+For PDF files, the analyzer performs detailed structural analysis:
 
-* PDF metadata
+* PDF metadata analysis
 * Page count
 * Character and word count
-* Embedded images
-* Embedded files
-* PDF image information
-* Embedded image SHA-256 hashes
-* PDF objects
-* PDF structure
-* JavaScript
-* Links
-* Fonts
-* Annotations
-* Encryption/security
-* PDF permissions
-* Page dimensions
+* PDF page dimensions
+* Embedded image detection
+* Embedded file detection
+* Image dimensions and format
+* Image SHA-256 hashing
+* PDF object analysis
+* Font analysis
+* Link detection
+* Annotation detection
+* Encryption/security analysis
+* PDF permission analysis
 
-### 6. PDF Active-Content Detection
+### ⚠️ PDF Active-Content Analysis
 
-The analyzer checks for:
+The tool checks for potentially active PDF components:
 
 * JavaScript
 * OpenAction
 * Additional Actions
-* Launch Action
+* Launch Actions
 * Embedded Files
 * RichMedia
 * AcroForm
 * XFA
 
-Detected active-content indicators are flagged for manual forensic review.
+Detected active-content indicators are reported separately for manual forensic review.
 
-### 7. Forensic Risk Assessment
+### 📊 Forensic Risk Assessment
 
-The tool generates:
+The analyzer generates a risk assessment based on detected indicators:
 
-* Risk Score
+* Risk Score: `0–100`
 * Risk Level
 * Verdict
-* Risk Factors
+* Identified risk factors
 
 Example:
 
 ```text
-FORENSIC RISK ASSESSMENT
-------------------------
 Risk Score: 10/100
 Risk Level: LOW
 Verdict: No significant suspicious indicators detected
@@ -97,14 +91,14 @@ Risk Factors:
 - OpenAction indicator detected
 ```
 
-### 8. Automated Forensic Report
+### 🧾 Automated Forensic Reporting
 
-After analysis, the tool generates a forensic report containing:
+A structured forensic report is automatically generated after analysis containing:
 
 * Analysis information
 * File information
 * Timestamps
-* File hashes
+* Cryptographic hashes
 * Suspicious content findings
 * Embedded content
 * PDF structure indicators
@@ -114,6 +108,8 @@ After analysis, the tool generates a forensic report containing:
 Example:
 
 ```text
+[+] Integrity Status: MATCH
+
 FORENSIC REPORT
 ---------------
 [+] Report generated successfully!
@@ -121,117 +117,25 @@ FORENSIC REPORT
 C:\Users\ANURAG\Downloads\DFIR_Report_DFIR.txt
 ```
 
-## Technologies Used
+### 📁 Multi-Format File Analysis
 
-* Python 3.13
-* PyMuPDF
-* hashlib
-* pathlib
-* mimetypes
-* os
-* re
-* subprocess
+The analyzer can process different file types.
 
-## Installation
+For supported PDF files, detailed PDF-specific forensic analysis is performed.
 
-Clone the repository:
+For non-PDF files such as `.xlsx`, the tool still performs general file identification, metadata, hashing, suspicious-content, and integrity analysis while appropriately skipping PDF-specific checks.
 
-```bash
-git clone <YOUR-GITHUB-REPOSITORY-URL>
-cd File-Evidence-Analyzer
-```
+### 🛡️ Evidence Integrity
 
-Install the required dependency:
-
-```bash
-python -m pip install PyMuPDF
-```
-
-## Usage
-
-Run the analyzer:
-
-```bash
-python main.py
-```
-
-Enter the complete path of the file when prompted.
-
-Example:
+The SHA-256 hash provides a cryptographic fingerprint that can be used to verify whether the analyzed evidence has remained unchanged.
 
 ```text
-C:\Users\ANURAG\Downloads\DFIR.pdf
-```
-
-The analyzer will perform the available forensic checks and display the results in the terminal.
-
-A forensic report is generated automatically after analysis.
-
-## Example Integrity Verification
-
-```text
-SHA-256:
+Calculated SHA-256:
 a9c89c9a80a5c8bf26e37223a58a0fab4f78e880a315867d4737a313a48c102a
 
-[+] Integrity Status: MATCH
+Integrity Status: MATCH
 ```
 
-## Project Structure
+### 📝 Forensic Review Indicators
 
-```text
-File-Evidence-Analyzer/
-│
-├── .gitignore
-├── README.md
-├── main.py
-│
-└── analyzer/
-    └── file_analyzer.py
-```
-
-`__pycache__` and generated Python bytecode files are excluded from version control using `.gitignore`.
-
-## Forensic Use Cases
-
-This project can be used for learning and authorized forensic analysis involving:
-
-* File identification
-* Evidence integrity verification
-* Cryptographic hashing
-* File-system metadata analysis
-* PDF forensic examination
-* Suspicious indicator detection
-* PDF active-content inspection
-* Risk assessment
-* Automated forensic reporting
-
-## Limitations
-
-This is an educational digital forensics project and is not intended to replace professional DFIR platforms.
-
-A detected indicator does not automatically mean that a file is malicious. Findings should be manually investigated and correlated with additional forensic evidence.
-
-## Future Enhancements
-
-Possible future enhancements include:
-
-* Graphical User Interface
-* HTML/PDF report generation
-* YARA integration
-* IOC extraction and export
-* VirusTotal integration
-* Timeline visualization
-* Additional file-format parsers
-* Case management
-
-## Disclaimer
-
-This project is intended for educational, defensive-security, and authorized forensic analysis purposes only.
-
-Do not analyze files that you do not have permission to examine.
-
-## Author
-
-**ANURAG**
-
-Digital Forensics & Cybersecurity Project
+When potentially interesting structural indicators are detected, the analyzer clearly reports them and recommends manual forensic review rather than automatically declaring the file malicious.
